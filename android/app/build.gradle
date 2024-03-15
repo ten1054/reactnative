@@ -117,3 +117,9 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+project.ext.vectoricons = [
+    //然后在以下数据中你可以添加需要字体图标文件名
+    iconFontNames: [ 'FontAwesome.ttf'] 
+]
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

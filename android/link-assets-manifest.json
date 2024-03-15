@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/albb.ttf",
+      "sha1": "feac3777bba22a8f8276eb352e3751fd01689f53"
+    },
+    {
+      "path": "src/assets/fonts/iconfont.ttf",
+      "sha1": "be8b96b75b6b55b7d12266bb615f1c086f226b96"
+    }
+  ]
+}

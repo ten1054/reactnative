@@ -1,10 +1,10 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-export default function Foot() {
+export default function Comment() {
   return (
     <View>
-      <Text>Foot</Text>
+      <Text>comment</Text>
     </View>
   );
 }

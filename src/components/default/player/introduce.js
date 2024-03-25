@@ -1,12 +1,14 @@
 import {View, Text, ScrollView, SafeAreaView, FlatList} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
+
 import Author from './introduce/author';
 import VideoInf from './introduce/videoInf';
 import VideoList from './introduce/videoList';
 import Foot from '../../public/Foot';
 
-export default function Introduce() {
+export default function Introduce({params}) {
   const [allData, setAllData] = useState([]);
+
   const [isLoading, setLoading] = useState(false);
   const reqData = useCallback(() => {
     const randomTitle = [
@@ -43,10 +45,9 @@ export default function Introduce() {
   }, []);
   useEffect(() => {
     const newData = reqData();
-    console.log('初始化');
     setAllData([...allData, ...newData]);
-    console.log('初始化结束');
   }, []);
+
   const getVideoData = event => {
     const offSetY = event.nativeEvent.contentOffset.y; // 获取滑动的距离
     const contentSizeHeight = event.nativeEvent.contentSize.height; // scrollView  contentSize 高度
@@ -71,9 +72,9 @@ export default function Introduce() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScrollEndDrag={getVideoData}>
-        <Author />
-        <VideoInf></VideoInf>
-        <VideoList allData={allData}></VideoList>
+        <Author params={params} />
+        <VideoInf params={params}></VideoInf>
+        <VideoList allData={allData} params={params}></VideoList>
         <Foot isLoading={isLoading} />
       </ScrollView>
     </SafeAreaView>

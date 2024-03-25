@@ -6,10 +6,10 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import Introduce from '../components/default/player/introduce';
 import Comment from '../components/default/player/comment';
 
-const renderScene = SceneMap({
-  introduce: Introduce,
-  comment: Comment,
-});
+// const renderScene = SceneMap({
+//   introduce: Introduce,
+//   comment: Comment,
+// });
 
 export default function Player({route}) {
   const navigation = useNavigation();
@@ -22,9 +22,16 @@ export default function Player({route}) {
   const back = () => {
     navigation.goBack();
   };
-  useEffect(() => {
-    console.log('新的参数', route.params);
-  }, [route.params]);
+
+  const renderScene = all => {
+    switch (all.route.key) {
+      case 'introduce':
+        return <Introduce params={route.params} />;
+      case 'comment':
+        return <Comment params={route.params} />;
+    }
+  };
+
   return (
     <View style={{flex: 1}}>
       <View style={{width: '100%', height: 220, backgroundColor: '#000'}}>

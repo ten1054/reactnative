@@ -1,21 +1,56 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Animated,
+  Easing,
+} from 'react-native';
+import React, {useRef, useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function VideoInf() {
-  const [videoData, setVideoData] = useState({
-    title: '[暗黑四]篝火访谈S4最新海量内容曝光，内涵最新血点激活码',
-    playerCount: 0,
-    commentLength: 65,
-    createTime: '2024年3月21日05:34',
-    likedCount: 5423,
-    coinCount: 150,
-    collectCount: 54,
-    forwardCount: 72,
-    isLiked: false,
-    isCoin: false,
-    isCollect: false,
-  });
+export default function VideoInf({params}) {
+  const [videoData, setVideoData] = useState({});
+  const [isLoading, setLoading] = useState(true);
+  const opacityValue = useRef(new Animated.Value(0.4)).current;
+  const anm = useRef(null);
+  anm.current = Animated.loop(
+    Animated.sequence([
+      Animated.timing(opacityValue, {
+        toValue: 1,
+        easing: Easing.linear,
+        duration: 700,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityValue, {
+        toValue: 0.4,
+        duration: 700,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]),
+  );
+  const getRandomData = () => {
+    const nameList = ['哀伤', '都', '和', '是', '就', '怕', '么', '去', '发'];
+    let title = '';
+    for (let i = 0; i < Math.random() * 10 + 2; i++) {
+      const random = Math.floor(Math.random() * nameList.length);
+      title += nameList[random];
+    }
+    setVideoData({
+      title,
+      playerCount: Math.ceil(Math.random() * 200),
+      commentLength: Math.ceil(Math.random() * 200),
+      createTime: '2024年3月21日05:34',
+      likedCount: Math.ceil(Math.random() * 200),
+      coinCount: Math.ceil(Math.random() * 200),
+      collectCount: Math.ceil(Math.random() * 200),
+      forwardCount: Math.ceil(Math.random() * 200),
+      isLiked: false,
+      isCoin: false,
+      isCollect: false,
+    });
+  };
   const like = () => {
     setVideoData({
       ...videoData,
@@ -25,6 +60,79 @@ export default function VideoInf() {
   const coin = () => {};
   const collect = () => {};
   const forward = () => {};
+  const loading = () => {
+    return (
+      <View style={[styles.video_inf]}>
+        <Animated.View
+          style={{
+            width: '100%',
+            height: 40,
+            borderRadius: 5,
+            backgroundColor: '#f0f0f0',
+            opacity: opacityValue,
+          }}></Animated.View>
+        <View style={[styles.statistics]}>
+          <Animated.View
+            style={[
+              styles.statistics_item,
+              {
+                width: 50,
+                height: 50,
+                borderRadius: 5,
+                backgroundColor: '#f0f0f0',
+                opacity: opacityValue,
+              },
+            ]}></Animated.View>
+          <Animated.View
+            style={[
+              styles.statistics_item,
+              {
+                width: 50,
+                height: 50,
+                borderRadius: 5,
+                backgroundColor: '#f0f0f0',
+                opacity: opacityValue,
+              },
+            ]}></Animated.View>
+          <Animated.View
+            style={[
+              styles.statistics_item,
+              {
+                width: 50,
+                height: 50,
+                borderRadius: 5,
+                backgroundColor: '#f0f0f0',
+                opacity: opacityValue,
+              },
+            ]}></Animated.View>
+          <Animated.View
+            style={[
+              styles.statistics_item,
+              {
+                width: 50,
+                height: 50,
+                borderRadius: 5,
+                backgroundColor: '#f0f0f0',
+                opacity: opacityValue,
+              },
+            ]}></Animated.View>
+        </View>
+      </View>
+    );
+  };
+  useEffect(() => {
+    setLoading(true);
+    anm.current.start();
+    setTimeout(() => {
+      getRandomData();
+      setLoading(false);
+      anm.current.reset();
+    }, 4000);
+  }, [params]);
+
+  if (isLoading) {
+    return loading();
+  }
   return (
     <View style={[styles.video_inf]}>
       <View>

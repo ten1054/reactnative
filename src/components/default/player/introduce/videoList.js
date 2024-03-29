@@ -1,8 +1,9 @@
 import {View, StyleSheet, Animated, Easing} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import VideoCard from './videoCard';
 
-export default function VideoList({allData, params}) {
+export default function VideoList({isPullUp, loadingFinish, params}) {
+  const [allData, setAllData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const opacityValue = useRef(new Animated.Value(0.4)).current;
   const anm = useRef(null);
@@ -56,14 +57,65 @@ export default function VideoList({allData, params}) {
       </View>
     );
   };
+  const reqData = useCallback(() => {
+    const randomTitle = [
+      '我',
+      '是',
+      '无',
+      '敌',
+      '的',
+      '没',
+      '没用',
+      '人',
+      '能',
+      '阴',
+      '我',
+    ];
+    const data = [];
+    const number = Math.random() > 0.4 ? 3 : 4;
+    for (let i = 0; i < number; i++) {
+      const randomNumber = Math.floor(Math.random() * 10 + 10);
+      let str = '';
+      for (let j = 0; j < randomNumber; j++) {
+        const randomIndex = Math.floor(Math.random() * randomTitle.length);
+        str += randomTitle[randomIndex];
+      }
+      data.push({
+        id: i + Math.random() * 1000,
+        title: str,
+        author: str.slice(0, 5),
+        playerCount: Math.floor(Math.random() * 500),
+        commentCount: Math.floor(Math.random() * 500),
+      });
+    }
+    return data;
+  }, []);
+
   useEffect(() => {
+    setAllData([]);
     setLoading(true);
     anm.current.start();
     setTimeout(() => {
       setLoading(false);
+      const newData = reqData();
+      setAllData(preValue => {
+        return [...preValue, ...newData];
+      });
       anm.current.reset();
-    }, 4000);
+    }, 2000);
   }, [params]);
+
+  useEffect(() => {
+    if (isPullUp) {
+      const newData = reqData();
+      setTimeout(() => {
+        setAllData(preValue => {
+          return [...preValue, ...newData];
+        });
+        loadingFinish();
+      }, 2000);
+    }
+  }, [isPullUp]);
 
   if (isLoading) {
     return loading();

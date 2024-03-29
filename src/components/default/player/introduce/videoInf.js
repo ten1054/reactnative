@@ -9,8 +9,7 @@ import {
 import React, {useRef, useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function VideoInf({params}) {
-  const [videoData, setVideoData] = useState({});
+export default function VideoInf({videoInf}) {
   const [isLoading, setLoading] = useState(true);
   const opacityValue = useRef(new Animated.Value(0.4)).current;
   const anm = useRef(null);
@@ -30,31 +29,10 @@ export default function VideoInf({params}) {
       }),
     ]),
   );
-  const getRandomData = () => {
-    const nameList = ['哀伤', '都', '和', '是', '就', '怕', '么', '去', '发'];
-    let title = '';
-    for (let i = 0; i < Math.random() * 10 + 2; i++) {
-      const random = Math.floor(Math.random() * nameList.length);
-      title += nameList[random];
-    }
-    setVideoData({
-      title,
-      playerCount: Math.ceil(Math.random() * 200),
-      commentLength: Math.ceil(Math.random() * 200),
-      createTime: '2024年3月21日05:34',
-      likedCount: Math.ceil(Math.random() * 200),
-      coinCount: Math.ceil(Math.random() * 200),
-      collectCount: Math.ceil(Math.random() * 200),
-      forwardCount: Math.ceil(Math.random() * 200),
-      isLiked: false,
-      isCoin: false,
-      isCollect: false,
-    });
-  };
   const like = () => {
     setVideoData({
-      ...videoData,
-      isLiked: !videoData.isLiked,
+      ...videoInf,
+      isLiked: !videoInf.isLiked,
     });
   };
   const coin = () => {};
@@ -121,14 +99,14 @@ export default function VideoInf({params}) {
     );
   };
   useEffect(() => {
-    setLoading(true);
-    anm.current.start();
-    setTimeout(() => {
-      getRandomData();
+    if (Object.keys(videoInf).length === 0) {
+      setLoading(true);
+      anm.current.start();
+    } else {
       setLoading(false);
       anm.current.reset();
-    }, 4000);
-  }, [params]);
+    }
+  }, [videoInf]);
 
   if (isLoading) {
     return loading();
@@ -139,7 +117,7 @@ export default function VideoInf({params}) {
         <View style={[styles.title]}>
           <Text style={[styles.type]}>活动</Text>
           <Text ellipsizeMode="tail" numberOfLines={2} style={[styles.text]}>
-            {videoData.title}
+            {videoInf.title}
           </Text>
         </View>
         <View
@@ -163,7 +141,7 @@ export default function VideoInf({params}) {
             <Text style={{marginLeft: 5, fontSize: 13}}>1231</Text>
           </View>
           <Text style={{marginLeft: 0, marginTop: -3, fontSize: 13}}>
-            {videoData.createTime}
+            {videoInf.createTime}
           </Text>
         </View>
       </View>
@@ -173,15 +151,15 @@ export default function VideoInf({params}) {
             <Icon
               name="thumbs-up"
               size={22}
-              color={videoData.isLiked ? '#ff679a' : '#5f676c'}
+              color={videoInf.isLiked ? '#ff679a' : '#5f676c'}
             />
           </Text>
           <Text
             style={[
-              videoData.isLiked && styles.active_text,
+              videoInf.isLiked && styles.active_text,
               styles.statistics_text,
             ]}>
-            {videoData.likedCount}
+            {videoInf.likedCount}
           </Text>
         </Pressable>
         <Pressable style={[styles.statistics_item]} onPress={coin}>
@@ -190,10 +168,10 @@ export default function VideoInf({params}) {
           </Text>
           <Text
             style={[
-              videoData.isCoin && styles.active_text,
+              videoInf.isCoin && styles.active_text,
               styles.statistics_text,
             ]}>
-            {videoData.coinCount}
+            {videoInf.coinCount}
           </Text>
         </Pressable>
         <Pressable style={[styles.statistics_item]} onPress={collect}>
@@ -202,10 +180,10 @@ export default function VideoInf({params}) {
           </Text>
           <Text
             style={[
-              videoData.isCoin && styles.active_text,
+              videoInf.isCoin && styles.active_text,
               styles.statistics_text,
             ]}>
-            {videoData.collectCount}
+            {videoInf.collectCount}
           </Text>
         </Pressable>
         <Pressable style={[styles.statistics_item]} onPress={forward}>
@@ -213,7 +191,7 @@ export default function VideoInf({params}) {
             <Icon name="reply-all" size={22} color="#5f676c" />
           </Text>
           <Text style={{fontSize: 12, marginTop: 4}}>
-            {videoData.forwardCount}
+            {videoInf.forwardCount}
           </Text>
         </Pressable>
       </View>

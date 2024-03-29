@@ -2,7 +2,7 @@ import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
+  Image,
   Pressable,
   Easing,
   Animated,
@@ -10,8 +10,8 @@ import {
 import React, {useState, useEffect, useRef} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function Author({params}) {
-  const [authorInf, setAuthorInf] = useState(getRandomAuthor);
+const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
+export default function Author({authorInf}) {
   const [isChange, setChange] = useState(true);
   const opacityValue = useRef(new Animated.Value(0.4)).current;
   const anm = useRef(null);
@@ -36,21 +36,6 @@ export default function Author({params}) {
       ...authorInf,
       isFollowed: !authorInf?.isFollowed,
     });
-  };
-  const getRandomAuthor = () => {
-    const nameList = ['哀伤', '都', '和', '是', '就', '怕', '么', '去', '发'];
-    let randomName = '';
-    for (let i = 0; i < Math.random() * 10 + 2; i++) {
-      const random = Math.floor(Math.random() * nameList.length);
-      randomName += nameList[random];
-    }
-    return {
-      name: randomName,
-      fans: Math.ceil(Math.random() * 200),
-      videoCount: Math.ceil(Math.random() * 200),
-      avatar: {uri: 'https://legacy.reactjs.org/logo-og.png'},
-      isFollowed: false,
-    };
   };
   const authorLoading = () => {
     return (
@@ -91,16 +76,17 @@ export default function Author({params}) {
   };
 
   useEffect(() => {
-    setChange(true);
-    anm.current.start();
-    setTimeout(() => {
-      setAuthorInf(getRandomAuthor());
+    if (Object.keys(authorInf).length === 0) {
+      setChange(true);
+      anm.current.start();
+    } else {
       setChange(false);
       anm.current.reset();
-    }, 4000);
-  }, [params]);
+    }
+  }, [authorInf]);
 
   if (isChange) {
+    console.log('render');
     return authorLoading();
   }
   return (
@@ -112,10 +98,10 @@ export default function Author({params}) {
       }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {}
-        <ImageBackground
-          source={authorInf?.avatar}
+        <Image
+          source={authorInf?.avatar || image}
           resizeMode="cover"
-          style={styles.image}></ImageBackground>
+          style={styles.image}></Image>
         <View style={{marginLeft: 15, justifyContent: 'center'}}>
           <Text style={{color: '#ff679a'}}>{authorInf?.name}</Text>
           <View style={{flexDirection: 'row', columnGap: 15}}>

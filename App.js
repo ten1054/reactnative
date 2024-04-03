@@ -9,6 +9,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import DefaultScreen from './src/pages/default/index.js';
 import PlayerScreen from './src/pages/Player.js';
+import DmPlayerScreen from './src/pages/DmPlayer.js';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ function App() {
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="Default" component={DefaultScreen} />
         <Stack.Screen name="Player" component={PlayerScreen} />
+        <Stack.Screen name="DmPlayer" component={DmPlayerScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

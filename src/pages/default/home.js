@@ -14,8 +14,8 @@ export default function () {
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'recommend', title: '推荐'},
     {key: 'anim', title: '动画'},
+    {key: 'recommend', title: '推荐'},
   ]);
   return (
     <View style={{flex: 1}}>

@@ -1,20 +1,26 @@
 import React from 'react';
 import TopBar from '../../components/default/TopBar.js';
-import AnimScreen from '../../components/default/home/anim/Index.js';
+import ChinaAnimScreen from '../../components/default/home/anim/China.js';
+import JapanAnimScreen from '../../components/default/home/anim/Japan.js';
+import ForeignAnimScreen from '../../components/default/home/anim/Foreign.js';
 import RecommendScreen from '../../components/default/home/recommend/Index.js';
 import {useWindowDimensions, View, Text} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 
 const renderScene = SceneMap({
   recommend: RecommendScreen,
-  anim: AnimScreen,
+  chinaAnm: ChinaAnimScreen,
+  japanAnm: JapanAnimScreen,
+  foreignAnm: ForeignAnimScreen,
 });
 
 export default function () {
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'anim', title: '动画'},
+    {key: 'japanAnm', title: '日本动画'},
+    {key: 'chinaAnm', title: '国产动画'},
+    {key: 'foreignAnm', title: '外国动画'},
     {key: 'recommend', title: '推荐'},
   ]);
   return (

@@ -1,5 +1,6 @@
 import HomeScreen from './home.js';
 import SettingsScreen from './Settings.js';
+import NotNormalScreen from './NotNormal.js';
 import MyTab from '../../components/BottomTab/tab.js';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
@@ -16,6 +17,14 @@ export default function () {
           title: '首页',
           headerShown: false,
         }}
+      />
+      <Tab.Screen
+        name="Yellow"
+        options={{
+          title: '不正经',
+          headerShown: false,
+        }}
+        component={NotNormalScreen}
       />
       <Tab.Screen
         name="Settings"

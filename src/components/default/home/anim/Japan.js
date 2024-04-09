@@ -8,7 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {getDMList} from '../../../../serve/home';
+import {getJapanDmList} from '../../../../serve/home';
 import Foot from '../../../public/Foot';
 import {useNavigation} from '@react-navigation/native';
 
@@ -16,6 +16,7 @@ export default function () {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
+  const [tip, setTip] = useState('');
   const [loadingFoot, setFootLoading] = useState(false);
   const openVideo = inf => {
     navigation.navigate('DmPlayer', {
@@ -24,13 +25,16 @@ export default function () {
     });
   };
   useEffect(() => {
-    alert('开始');
     setFootLoading(true);
-    getDMList(page + 1, res => {
-      setData([...data, ...res]);
-      alert(res[0]?.title);
+    getJapanDmList(page + 1, (state, res) => {
+      if (state) {
+        setData([...data, ...res]);
+        setFootLoading(false);
+        setPage(page + 1);
+        return;
+      }
       setFootLoading(false);
-      setPage(page + 1);
+      setTip(res);
     });
   }, []);
 
@@ -67,10 +71,15 @@ export default function () {
         onEndReachedThreshold={0.01}
         onEndReached={info => {
           setFootLoading(true);
-          getDMList(page + 1, res => {
-            setData([...data, ...res]);
+          getJapanDmList(page + 1, (state, res) => {
+            if (state) {
+              setData([...data, ...res]);
+              setFootLoading(false);
+              setPage(page + 1);
+              return;
+            }
             setFootLoading(false);
-            setPage(page + 1);
+            setTip(res);
           });
         }}
         ListFooterComponent={<Foot isLoading={loadingFoot} />}></FlatList>

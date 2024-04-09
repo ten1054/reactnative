@@ -43,7 +43,6 @@ export default function () {
   const [refreshData, setRefreshData] = useState([]);
   const flagListRef = useRef(null);
   useEffect(() => {
-    alert('哈哈');
     const extraData = getVideoData();
     setRefreshData([extraData]);
   }, []);

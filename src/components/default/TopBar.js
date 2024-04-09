@@ -1,9 +1,13 @@
-import {View, Text, TextInput, Image, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, Pressable, Image, StyleSheet} from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useNavigation} from '@react-navigation/native';
 
 export default function TopBar() {
-  const [value, onChangeText] = useState('');
+  const navigation = useNavigation();
+  const jumpSearch = () => {
+    navigation.navigate('Search');
+  };
   return (
     <View style={[styles.topBar]}>
       <View style={[styles.left]}>
@@ -13,15 +17,11 @@ export default function TopBar() {
             source={require('../../assets/images/hh.webp')}
           />
         </View>
-        <TextInput
-          style={[styles.searchText]}
-          placeholder="搜索"
-          allowFontScaling={true}
-          inlineImageLeft="hh.webp"
-          clearButtonMode="always"
-          onChangeText={text => onChangeText(text)}
-          value={value}
-        />
+        <Pressable onPress={jumpSearch}>
+          <View style={styles.searchText}>
+            <Text>搜索</Text>
+          </View>
+        </Pressable>
       </View>
       <View style={[styles.right]}>
         <Text>
@@ -65,6 +65,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   right: {
     flexDirection: 'row',

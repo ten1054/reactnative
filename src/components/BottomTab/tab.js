@@ -5,11 +5,15 @@ export default function ({state, descriptors, navigation}) {
   const list = [
     {
       name: '首页',
-      icon: 'shield',
+      icon: 'github-alt',
+    },
+    {
+      name: '不正经?',
+      icon: 'ambulance',
     },
     {
       name: '设置',
-      icon: 'cube',
+      icon: 'gears',
     },
   ];
 

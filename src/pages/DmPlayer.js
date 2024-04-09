@@ -11,6 +11,7 @@ import React, {useEffect, useState} from 'react';
 import {enterVideo} from '../serve/home';
 import Video from 'react-native-video';
 import {useNavigation} from '@react-navigation/native';
+import VideoPlayer from '../components/public/VideoPlayer';
 
 export default function DmPlayer({route}) {
   const navigation = useNavigation();
@@ -38,15 +39,7 @@ export default function DmPlayer({route}) {
     if (!isLoading) {
       return (
         <View style={{flex: 1}}>
-          <View style={{width: deviceWidth, height: deviceWidth * (9 / 16)}}>
-            <Video
-              style={styles.video}
-              source={{
-                uri: videoInf.url,
-              }}
-              resizeMode={'cover'}
-              controls={true}></Video>
-          </View>
+          <VideoPlayer uri={videoInf.url}></VideoPlayer>
           <SafeAreaView style={styles.container}>
             <ScrollView
               contentContainerStyle={styles.contentContainer}

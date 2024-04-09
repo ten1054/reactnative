@@ -30,7 +30,6 @@ export default function Card({data, length, index}) {
     navigation.navigate('Player', {
       id: Math.random() * 1000,
     });
-    console.log(navigation);
   };
   return (
     <TouchableOpacity

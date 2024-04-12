@@ -58,11 +58,17 @@ export default function VideoPlayer({uri}) {
       });
     }
   }, [isShowControl]);
-
+  useEffect(() => {
+    return () => {
+      Orientation.lockToPortrait();
+    };
+  }, []);
+  // 转换时间
   const changeTime = ({currentTime}) => {
     setCurrentTime(currentTime);
     setPercentage((currentTime * 100) / dur.duration);
   };
+  // 全屏播放
   const fullPlay = () => {
     changeShowControl();
     setFull(pre => {
@@ -74,6 +80,7 @@ export default function VideoPlayer({uri}) {
       return !pre;
     });
   };
+  // 处理屏幕点击
   const handleVideoPress = () => {
     if (Date.now() - lastPressTime <= 300 && isDoubleTapped) {
       clearTimeout(clickTimer);
@@ -94,6 +101,7 @@ export default function VideoPlayer({uri}) {
     }, 300);
     setClickTimer(timer);
   };
+  // 是否显示视频控制台
   const changeShowControl = () => {
     clearTimeout(timer);
     if (!isShowControl) {
@@ -113,10 +121,12 @@ export default function VideoPlayer({uri}) {
       setTimer(timer);
     }
   };
+  // 获取控制台的宽度
   const handleLayout = event => {
     const {width: layoutWidth} = event.nativeEvent.layout;
     setBarWidth(layoutWidth);
   };
+  // 跳转至进度条指定的时间
   const fastForward = event => {
     const {locationX} = event.nativeEvent;
     const timeInSeconds = (locationX * dur.duration) / barWidth;
@@ -143,7 +153,7 @@ export default function VideoPlayer({uri}) {
         source={{
           uri,
         }}
-        resizeMode={'cover'}
+        resizeMode={'contain'}
         paused={isPaused}
         onEnd={() => {}}
         onProgress={changeTime}

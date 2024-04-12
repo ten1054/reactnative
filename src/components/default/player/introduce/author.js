@@ -86,7 +86,6 @@ export default function Author({authorInf}) {
   }, [authorInf]);
 
   if (isChange) {
-    console.log('render');
     return authorLoading();
   }
   return (

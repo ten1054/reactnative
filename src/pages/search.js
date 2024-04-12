@@ -20,7 +20,6 @@ export default function ({navigation}) {
   const [loadingFoot, setFootLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
-
   const back = () => {
     navigation.goBack();
   };
@@ -110,6 +109,7 @@ export default function ({navigation}) {
       </SafeAreaView>
     );
   };
+
   return (
     <View style={styles.search_page}>
       <View style={[styles.head]}>

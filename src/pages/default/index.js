@@ -21,7 +21,8 @@ export default function () {
       <Tab.Screen
         name="Yellow"
         options={{
-          title: '不正经',
+          title: '嘟嘟嘟',
+          unmountOnBlur: true,
           headerShown: false,
         }}
         component={NotNormalScreen}

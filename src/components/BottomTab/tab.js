@@ -8,7 +8,7 @@ export default function ({state, descriptors, navigation}) {
       icon: 'github-alt',
     },
     {
-      name: '不正经?',
+      name: '嘟嘟嘟!',
       icon: 'ambulance',
     },
     {
